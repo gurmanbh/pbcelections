@@ -1,12 +1,38 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<div class="container">
-  <div class="jumbotron">
-    <h1>Welcome to your new project!</h1>
-    <p>Replace this message with your own content in <code>{{ PROJECT_PATH }}/index.html</code>.</p>
-    <p>Learn more on the <a href="_example.html">example page</a>.</p>
-  </div>
+<div class="city_nav sameline">
+<img src = "{{logo}}">
+<div class = 'instruction'>
+Select a city
 </div>
+<ul>
+	{% for row in cities %}
+	
+	<li class = 'city_option' data-which = '{{ row.city | clean_city }}'>
+	  {{ row.city }}
+	 </li>
+
+	{% endfor %}
+</ul>
+</div>
+
+<div id = 'content' class = 'sameline'>
+	{% for row in cities %}
+	
+	<div class = 'city' id = '{{ row.city | clean_city }}'>
+	  <h1>{{ row.city }}</h1>
+	  <ul>
+	  	{%for candidate in candidates%}
+	  		{%if candidate.city == row.city and candidate.status == 'received'%}
+	  			
+	  		{%endif%}
+	  	{%endfor%}
+	  </ul>
+	 </div>
+
+	{% endfor %}
+</div>
+
 {% endblock content %}
 
