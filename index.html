@@ -1,38 +1,51 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<div class="city_nav sameline">
-<img src = "{{logo}}">
-<div class = 'instruction'>
-Select a city
+<div id = 'container'>
+	<div class="city_nav sameline">
+	<div class = 'logo'><img src = "{{logo}}"></div>
+	<div class = 'instruction'>
+	Select a city
+	</div>
+	<div class = 'citylist_wrapper'>
+		<ul class = 'citylist'>
+			{% for row in cities %}
+			
+			<li class = 'city_option' data-which = '{{ row.city | clean_city }}'>
+			  {{ row.city }}
+			 </li>
+
+			{% endfor %}
+		</ul>
+	</div>
+	</div>
+
+	<div id = 'content' class = 'sameline'>
+		{% for city in cities %}
+		
+		<div class = 'city' id = '{{ city['city'] | clean_city }}'>
+		  <h1>{{ city['city'] }}</h1>
+		  
+		  	{% for seat in cityseatlist[city['city']] %}
+		  	<div class = 'seat' id = '{{city['city'] | clean_city}}-{{seat|clean_city}}'>
+			  	<h2>{{ seat }}</h2>
+			  	<div class = 'candidate-block' data-seat-which = '{{city['city'] | clean_city}}-{{seat|clean_city}}'>
+			  		{% for candidate in cityseatlist[city['city']][seat] %}
+			  			<a href="{{url_for('add.persondetail', namekey = candidate['namekey'])}}">
+				  		<div data-candidate-which = '{{candidate['namekey']}}' class = 'candidate' >
+				  			<div class="candidate_photo" style="background-image: url('{{candidate['namekey']}}.png');"></div>
+				  			<h4 class = 'name'>{{candidate['name']}}</h4>
+				  		</div>
+				  		</a>
+			  		{%endfor%}
+			  	</div>
+		  	</div>
+		  	{%endfor%}
+		  
+		 </div>
+
+		{% endfor %}
+	</div>
 </div>
-<ul>
-	{% for row in cities %}
-	
-	<li class = 'city_option' data-which = '{{ row.city | clean_city }}'>
-	  {{ row.city }}
-	 </li>
-
-	{% endfor %}
-</ul>
-</div>
-
-<div id = 'content' class = 'sameline'>
-	{% for row in cities %}
-	
-	<div class = 'city' id = '{{ row.city | clean_city }}'>
-	  <h1>{{ row.city }}</h1>
-	  <ul>
-	  	{%for candidate in candidates%}
-	  		{%if candidate.city == row.city and candidate.status == 'received'%}
-	  			
-	  		{%endif%}
-	  	{%endfor%}
-	  </ul>
-	 </div>
-
-	{% endfor %}
-</div>
-
 {% endblock content %}
 
