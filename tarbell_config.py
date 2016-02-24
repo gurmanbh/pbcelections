@@ -154,7 +154,10 @@ def persondetail(namekey):
     if context['selectedstatus']['status'] == 'received':
         context['selected'] = info_by_name[namekey]
         context['selected']['previousraces'] = getraces(context['selected'])
-        context['selected']['education'] = build_edu(context['selected']['For_each_college_degree_you_have_list_the_degree_BA_PhD_the_field_of_study_and_the_college_or_university_Otherwise_please_provide_your_highest_level_of_education_and_the_school_you_attended'])
+        if 'For_each_college_degree_you_have_list_the_degree_BA_PhD_the_field_of_study_and_the_college_or_university_Otherwise_please_provide_your_highest_level_of_education_and_the_school_you_attended' in context['selected']:
+            context['selected']['education'] = build_edu(context['selected']['For_each_college_degree_you_have_list_the_degree_BA_PhD_the_field_of_study_and_the_college_or_university_Otherwise_please_provide_your_highest_level_of_education_and_the_school_you_attended'])
+        else:
+            context['selected']['education']=[]
         if 'List_municipal_committees_youve_been_appointed_to_and_currently_serve_on' in context['selected']:
             context['selected']['otherpolex'] = build_edu(context['selected']['List_municipal_committees_youve_been_appointed_to_and_currently_serve_on'])
         else:
