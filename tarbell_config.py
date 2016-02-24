@@ -52,6 +52,22 @@ def build_dict(seq, key):
 def build_edu(list):
     return list.split('|')
 
+def build_social(links):
+    linklist = links.split('|')
+    linkobjs = []
+    for link in linklist:
+        obj = {}
+        obj['link']=link.strip()
+        if 'facebook' in link:
+            obj['type'] = 'facebook-square'
+        elif 'twitter' in link:
+            obj['type'] = 'twitter-square'
+        else:
+            obj['type'] = 'globe'
+        linkobjs.append(obj.copy())
+    return linkobjs
+
+
 def build_competition(dictlist,city, seat, name):
     expectedResult = [d for d in dictlist if d['city'] == city and d['seat']==seat and d['namekey']!=name ]
     return expectedResult
@@ -116,7 +132,6 @@ def getraces(selected):
     # sort by the order year
     newlist = sorted(obj, key=lambda k: k['orderyear'])
     # return the reversed list
-    print newlist
     return newlist[::-1]
 
 blueprint = Blueprint('add', __name__)
@@ -140,6 +155,12 @@ def persondetail(namekey):
         context['selected'] = info_by_name[namekey]
         context['selected']['previousraces'] = getraces(context['selected'])
         context['selected']['education'] = build_edu(context['selected']['For_each_college_degree_you_have_list_the_degree_BA_PhD_the_field_of_study_and_the_college_or_university_Otherwise_please_provide_your_highest_level_of_education_and_the_school_you_attended'])
+        if 'List_municipal_committees_youve_been_appointed_to_and_currently_serve_on' in context['selected']:
+            context['selected']['otherpolex'] = build_edu(context['selected']['List_municipal_committees_youve_been_appointed_to_and_currently_serve_on'])
+        else:
+            context['selected']['otherpolex']=[]
+        if 'Any_social_or_website_addresses_youd_like_to_share' in context['selected']:
+            context['selected']['social'] = build_social(context['selected']['Any_social_or_website_addresses_youd_like_to_share'])
     if context['selectedstatus']['status'] == 'pending':
         context['selected'] = {}
     context['selected']['questionlist'] = build_questions(context['questionlist'],context['selectedstatus']['city'])[context['selectedstatus']['city']]

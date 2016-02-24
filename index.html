@@ -11,11 +11,11 @@
 		<div class = 'citylist_wrapper'>
 			<ul class = 'citylist'>
 				{% for row in cities %}
-				
-				<li class = 'city_option' data-which = '{{ row.city | clean_city }}'>
+				<a href = '/#{{ row.city | slugify |lowercase }}'>
+				<li class = 'city_option' data-which = '{{ row.city | slugify |lowercase }}'>
 				  {{ row.city }}
 				 </li>
-
+				 </a>
 				{% endfor %}
 			</ul>
 		</div>
@@ -28,13 +28,13 @@
 	</div>
 		{% for city in cities %}
 		
-		<div class = 'city' id = '{{ city['city'] | clean_city }}'>
+		<div class = 'city' id = '{{ city['city'] | slugify |lowercase }}'>
 		  <h1>{{ city['city'] }}</h1>
 		  
 		  	{% for seat in cityseatlist[city['city']] %}
-		  	<div class = 'seat' id = '{{city['city'] | clean_city}}-{{seat|clean_city}}'>
+		  	<div class = 'seat' id = '{{city['city'] | slugify |lowercase}}-{{seat|slugify |lowercase}}'>
 			  	<h2>{{ seat }}</h2>
-			  	<div class = 'candidate-block' data-seat-which = '{{city['city'] | clean_city}}-{{seat|clean_city}}'>
+			  	<div class = 'candidate-block' data-seat-which = '{{city['city'] | slugify |lowercase}}-{{seat|slugify |lowercase}}'>
 			  		{% for candidate in cityseatlist[city['city']][seat] %}
 			  			<a href="{{url_for('add.persondetail', namekey = candidate['namekey'])}}">
 				  		<div data-candidate-which = '{{candidate['namekey']}}' class = 'candidate' >
