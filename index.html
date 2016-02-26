@@ -2,8 +2,8 @@
 
 {% block content %}
 <div id = 'container'>
-	<div class="city_nav sameline">
-		<div class = 'logo'><img src = "{{logo}}"></div>
+	<div class="city_nav bothcitynav sameline">
+		<a href = '{{homepage}}'><div class = 'logo'><img src = "{{logo}}"></div></a>
 		<div class = 'citynav-inner'>
 		<div class = 'instruction'>
 		Select a city
@@ -11,7 +11,7 @@
 		<div class = 'citylist_wrapper'>
 			<ul class = 'citylist'>
 				{% for row in cities %}
-				<a href = '/#{{ row.city | slugify |lowercase }}'>
+				<a href = '/kyc/#{{ row.city | slugify |lowercase }}'>
 				<li class = 'city_option' data-which = '{{ row.city | slugify |lowercase }}'>
 				  {{ row.city }}
 				 </li>
@@ -38,7 +38,7 @@
 			  		{% for candidate in cityseatlist[city['city']][seat] %}
 			  			<a href="{{url_for('add.persondetail', namekey = candidate['namekey'])}}">
 				  		<div data-candidate-which = '{{candidate['namekey']}}' class = 'candidate' >
-				  			<div class="candidate_photo" style="background-image: url('{{candidate['namekey']}}.png');"></div>
+				  			<div class="candidate_photo" style="background-image: url('/kyc/img/candidates/{{candidate['namekey']}}.png');"></div>
 				  			<h4 class = 'name'>{{candidate['name']}}</h4>
 				  		</div>
 				  		</a>

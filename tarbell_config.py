@@ -14,7 +14,7 @@ EXCLUDES = ["*.md", "requirements.txt"]
 # SPREADSHEET_CACHE_TTL = 4
 
 # Create JSON data at ./data.json, disabled by default
-# CREATE_JSON = True
+CREATE_JSON = True
 
 # Get context from a local file or URL. This file can be a CSV or Excel
 # spreadsheet file. Relative, absolute, and remote (http/https) paths can be 
@@ -136,7 +136,7 @@ def getraces(selected):
 
 blueprint = Blueprint('add', __name__)
 
-@blueprint.route('/candidate/<namekey>/')
+@blueprint.route('/candidate/<namekey>.html')
 def persondetail(namekey):
     "Show details on a single id"
     # get context, also setting site.data
@@ -144,7 +144,8 @@ def persondetail(namekey):
     context = site.get_context()
     context.update({
         'PROJECT_PATH': site.path,
-        'PATH': '/candidate/<namekey>/'
+        'PATH': '/candidate/<namekey>.html',
+        'ROOT_URL': 'http://apps.mypalmbeachpost.com/kyc',
     })
     info_by_name = build_dict(context['responses'], key="namekey")
     context['info_by_name'] = info_by_name
@@ -179,7 +180,8 @@ def index():
     context = site.get_context()
     context.update({
         'PROJECT_PATH': site.path,
-        'PATH': '/'
+        'PATH': '/',
+        'ROOT_URL': 'http://apps.mypalmbeachpost.com/kyc'
     })
     context['cityseatlist'] = buildcityseatlist(context['candidates'])
     return render_template('index.html', **context)
